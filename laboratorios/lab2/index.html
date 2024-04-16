@@ -1,0 +1,82 @@
+<html>
+  <head></head>
+  <body>
+    <!-- Problema #1 -->
+    <p>JS y Java</p>
+    <script>
+      (() => {
+        // Problema #2
+        var x = 1, y = 2;
+
+        var operations = {
+          sum:  (a, b) => a + b,
+          rest: (a, b) => a - b,
+          mul:  (a, b) => a * b,
+          div:  (a, b) => a / b,
+        }
+
+        Object
+          .keys(operations)
+          .forEach((o) => {
+            console.log(operations[o](x, y));
+          });
+      })();
+    </script>
+    <script>
+      (() => {
+        // Problema #3
+        const nombre = "Erick", apellido = "Agrazal";
+        console.log(`${nombre} ${apellido}.`);
+        console.log(nombre + ' ' + apellido);
+      })();
+    </script>
+    <script>
+      (() => {
+        // Problema #4
+        const a = '1';
+        const b = 1;
+        console.log(typeof a);
+        console.log(typeof b);
+      })();
+    </script>
+    <script>
+      (() => {
+        // Problema #5
+        const numbers = {
+          a: 1,
+          b: '1',
+          c: true,
+          d: { },
+        }
+        console.log({ numbers });
+      })();
+    </script>
+    <script>
+      (() => {
+        // Problema #6
+        const range = (num) => {
+          const arr = [];
+          for(let i = 1; i < num; i++) {
+            arr.push(i);
+          }
+          return arr;
+        }
+        const calc = (num) => {
+          const arr = range(num);
+
+          const div = [
+            ...arr.filter((a) => a % 5 === 0),
+            ...arr.filter((a) => a % 3 === 0),
+          ].sort();
+          console.log(div.reduce((a, b) => a + b));
+
+          // a = 0, b = 3
+          // a = 3, b = 5
+          // a = 8, b = 6
+          // a = 14, b = 9
+        }
+        calc(10);
+      })();
+    </script>
+  </body>
+</html>
