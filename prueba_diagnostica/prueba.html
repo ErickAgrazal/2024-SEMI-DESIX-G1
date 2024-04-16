@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Prueba Diagnóstica</title>
+    <link href="css/style.css" rel="stylesheet">
+    <style>
+      #prob2 {
+        display: flex;
+        gap: 1rem;
+        flex-direction: row;
+      }
+      .row {
+        display: flex;
+        gap: 1rem;
+        flex-direction: row;
+      }
+      .column {
+        display: flex;
+        flex-direction: column;
+      }
+      button {
+        min-width: 50px;
+      }
+    </style>
+  </head>
+  <body>
+    <section>
+      <form id="prob1">
+        <input type="number" name="num" value="" />
+        <button id="btn1" type="submit">Calcular</button>
+        <p id="res1"></p>
+      </form>
+    </section>
+    <section>
+      <form id="prob2">
+        <div class="column">
+          <div class="row">
+            <button data-attr="1">1</button>
+            <button data-attr="2">2</button>
+            <button data-attr="3">3</button>
+          </div>
+          <div class="row">
+            <button data-attr="4">4</button>
+            <button data-attr="5">5</button>
+            <button data-attr="6">6</button>
+          </div>
+          <div class="row">
+            <button data-attr="7">7</button>
+            <button data-attr="8">8</button>
+            <button data-attr="9">9</button>
+          </div>
+        </div>
+        <div class="column">
+          <button data-attr="+">Suma</button>
+          <button data-attr="-">Resta</button>
+          <button data-attr="=">Calcular</button>
+        </div>
+        <div class="column">
+          <p id="res2"></p>
+        </div>
+      </form>
+    </section>
+    <script>
+    (() => {
+      // Primer problema
+      const form = document.getElementById('prob1');
+      const fibonacci = (num) => {
+        const res = [];
+        for (let i = 0; i < num; i++) {
+          if (i === 0 || i === 1) {
+            res.push(i);
+          } else {
+            res.push(res[i - 1] + res[i - 2]);
+          }
+        }
+        return res;
+      };
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const num = parseInt(form.num.value);
+        const arr = fibonacci(num);
+        const res = document.getElementById('res1');
+        res.innerHTML = arr.map(a => `<span>${a}</span>`).join('-');
+      });
+    })();
+    </script>
+    <script>
+    (() => {
+      let numbers = [];
+      const form = document.getElementById('prob2');
+      const buttons = form.querySelectorAll('button');
+      const res = document.getElementById('res2');
+      let n1 = null;
+      let n2 = null;
+      let symbol = null;
+      const addNumber = (num) => {
+        numbers.push(num);
+        res.innerHTML += num;
+      };
+      buttons.forEach(button => {
+        button.addEventListener('click', (e) => {
+          e.preventDefault();
+          const attr = button.getAttribute('data-attr');
+          if (attr !== '+' && attr !== '-' && attr !== '=') {
+            addNumber(attr);
+          } else if (attr === '+' || attr === '-') {
+            res.innerHTML += attr;
+            symbol = attr;
+            n1 = parseInt(numbers.join(''));
+            numbers = [];
+          } else {
+            n2 = parseInt(numbers.join(''));
+            const result = symbol === '+' ? n1 + n2 : n1 - n2;
+            res.innerHTML += ' = ' + result;
+            console.log(n1, n2, symbol, result);
+          }
+        });
+      });
+          
+    })();
+    </script>
+  </body>
+</html>
