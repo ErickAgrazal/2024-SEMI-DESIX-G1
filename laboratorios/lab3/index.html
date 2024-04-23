@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title></title>
+    <link href="style.css" rel="stylesheet">
+  </head>
+  <body>
+    <section>
+      <h1>Problema #1</h1>
+      <form id="form">
+        <label for="num">Número: </label>
+        <input id="num" type="number" name="num">
+      </form>
+      <span id="res"></span>
+    </section>
+    <section>
+      <h1>Problema #2</h1>
+      <form id="form2">
+        <label for="txt">Número: </label>
+        <input id="txt" type="text" name="text">
+      </form>
+      <span id="res2"></span>
+    </section>
+    <script>
+    (() => {
+      // Problema 1
+      const App = {
+        htmlElements: {
+          form: document.getElementById('form'),
+          res: document.getElementById('res'),
+        },
+        init() {
+          App.bindEvents();
+        },
+        bindEvents() {
+          App.htmlElements.form.addEventListener('submit', App.handlers.handleForm);
+        },
+        handlers: {
+          handleForm(e) {
+            e.preventDefault();
+            const num = e.target.num.value;
+            const isDecimalPalindrome = App.methods.isDecimalPalindrome(num);
+            const isBinaryPalindrome = App.methods.isBinaryPalindrome(num);
+            const res = isDecimalPalindrome && isBinaryPalindrome
+              ? 'El número es doblemente palíndromo'
+              : 'El número no es doblemente palíndromo';
+            App.render(res);
+          },
+        },
+        methods: {
+          isDecimalPalindrome(num) {
+            const numStr = num.toString();
+            const reversed = numStr.split('').reverse().join('');
+            return numStr === reversed;
+          },
+          isBinaryPalindrome(num) {
+            const binary = num.toString(2);
+            const reversed = binary.split('').reverse().join('');
+            return binary === reversed;
+          },
+        },
+        render(res) {
+          App.htmlElements.res.textContent = res;
+        }
+      };
+      App.init();
+    })();
+  </script>
+  <script>
+    (() => {
+      const App = {
+        htmlElements: {
+          form: document.getElementById('form2'),
+          res: document.getElementById('res2'),
+        },
+        init() {
+          App.bindEvents();
+        },
+        bindEvents() {
+          App.htmlElements.form.addEventListener('submit', App.handlers.handleForm);
+        },
+        handlers: {
+          handleForm(e) {
+            e.preventDefault();
+            const text = e.target.text.value;
+            const counters = App.methods.characterCount(text);
+            App.render(JSON.stringify(counters, null, 2));
+          }
+        },
+        methods: {
+          characterCount(text) {
+            const counters = {}
+            for (let i = 0; i < text.length; i++) {
+              if (counters[text[i]]) {
+                counters[text[i]]++;
+              } else {
+                counters[text[i]] = 1;
+              }
+              // counters[text[i]] = (counters[text[i]] ?? 0) + 1;
+            }
+            return counters;
+          }
+        },
+        render(res) {
+          App.htmlElements.res.textContent = res;
+        }
+      }
+      App.init();
+    })();
+  </script>
+</body>
+</html>
