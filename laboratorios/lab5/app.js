@@ -1,6 +1,7 @@
 (() => {
   const App = {
     htmlElements: {
+      chart: document.getElementById("chart"),
       form: document.getElementById("form"),
       results: document.getElementById("results"),
     },
@@ -39,8 +40,11 @@
         return `
             <div class="card" data-id="${id}" data-count="1" data-name="${title}" data-color="${color}">
               <h2>
-                ${title} <span class="count">0</span>
-                <div class="pill" style="background-color: ${color};"></div>
+                <div>${title}</div>
+                <div>
+                  <span class="count">0</span>
+                  <div class="pill" style="background-color: ${color};"></div>
+                </div>
               </h2>
               <div class="card-footer">
                 ${substractButton} ${addButton} 
@@ -49,7 +53,6 @@
           `;
       },
       chart: () => {
-        console.log("chart");
         const cards = document.querySelectorAll(".card");
         const sumOfCounts = Array.from(cards).reduce((acc, card) => {
           return acc + parseInt(card.dataset.count);
@@ -64,9 +67,7 @@
             </div>
           `;
         });
-        console.log(html);
-        const chart = document.querySelector("#chart");
-        chart.innerHTML = html;
+        App.htmlElements.chart.innerHTML = html.join("");
       },
     },
     methods: {
