@@ -23,9 +23,15 @@ button {
 }
 
 #results {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(11rem, 1fr)
+  ); /* 10rem is the min width */
+  grid-gap: 1rem;
   gap: 1rem;
+
   padding-top: 2rem;
   padding-bottom: 2rem;
 }
