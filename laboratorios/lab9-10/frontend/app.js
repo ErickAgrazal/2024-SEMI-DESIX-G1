@@ -12,15 +12,22 @@
     events: {
       async submitForm(event) {
         event.preventDefault();
-        const name = event.target.querySelector('input[name="name"]').value;
-        const payload = { name };
-        const rawResponse = await fetch('http://localhost:3000/', {
+        const username = event.target.querySelector('input[name="username"]').value;
+        const password = event.target.querySelector('input[name="password"]').value;
+        const payload = { username, password };
+        const rawResponse = await fetch('http://localhost:3000/api/users/login', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload),
         });
         const data = await rawResponse.json();
-        console.log(data);
+
+        const rawResponseUsers = await fetch('http://localhost:3000/api/users', {
+          headers: { 'Content-Type': 'application/json', 'Authorization': data.token },
+        });
+        const dataUsers = await rawResponseUsers.json();
+
+        console.log({ data, dataUsers });
       },
     },
   };
