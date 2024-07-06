@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <!--https://developer.paypal.com/-->
+  <!--https://developer.paypal.com/sdk/js/reference/#createorder  -->
+  <div id="paypal-button-container"></div>
+  <script src="https://www.paypal.com/sdk/js?client-id=AT9fqlD04svz95TYih05W4QTqCPlN9RSDWo3QLdDj5O22OMygS9GBdbQjgl58cBX3K1H507GMpLwUnve&currency=USD"></script>
+  <script>
+    paypal.Buttons({
+        createOrder() {
+          return fetch("http://localhost:3000/payment/create", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              cart: [
+                {
+                  sku: "YOUR_PRODUCT_STOCK_KEEPING_UNIT",
+                  quantity: "YOUR_PRODUCT_QUANTITY",
+                },
+              ]
+            })
+          })
+          .then((response) => response.json())
+          .then((order) => order.id);
+        },
+        onSuccess(data) {
+          fetch("http://localhost:3000/payment/execute", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              data,
+            })
+          }).then((response) => {
+            response.json();
+            window.location.href = "http://localhost:3000/success";
+          });
+        },
+        onError(err) {
+          console.log(err);
+          window.location.href = "http://localhost:3000/error";
+        },
+        onCancel(data) {
+          console.log(data);
+        },
+      }).render('#paypal-button-container');
+  </script>
+  
+</body>
+</html>
